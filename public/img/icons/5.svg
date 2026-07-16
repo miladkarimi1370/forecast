@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="70" viewBox="0 0 70 70">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.559" y1="1.091" x2="0.439" y2="0.07" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#557df5"/>
+      <stop offset="1" stop-color="#adc0fa"/>
+    </linearGradient>
+    <clipPath id="clip-ico-w5">
+      <rect width="70" height="70"/>
+    </clipPath>
+  </defs>
+  <g id="ico-w5" clip-path="url(#clip-ico-w5)">
+    <g id="ico-w11" transform="translate(-845 -242)">
+      <g id="weather-14" transform="translate(844 240.19)">
+        <path id="Path_260" data-name="Path 260" d="M66,47.47C66,52.16,63,56,59.69,56H13.81C11.08,56,6,52,6,46c0-5,4.46-9.1,10-9.1a11,11,0,0,1,2.23.23v-.32c0-6.25,5.42-11.33,12.11-11.33a12.69,12.69,0,0,1,4.76.92,15.83,15.83,0,0,1,30.68,5.69,16.09,16.09,0,0,1-3.23,9.71A7,7,0,0,1,66,47.47Z" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -3,24 +3,42 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --favourite-purple: #792CA2;
+  --favourite-black: #1b1b1b;
+  --favourite-dark-blue : #222e63;
+  --favourite-blue : rgb(85, 125, 245);
+  
+}
+@theme {
+  --color-favourite-purple : var(--favourite-purple);
+  --color-favourite-black : var(--favourite-black);
+  --color-favourite-dark-blue : var(--favourite-dark-blue);
+  --color-favourite-light-blue : var(--favourite-blue);
+}
+/* فونت Vazir */
+@font-face {
+    font-family: 'Vazir';
+    src: url('/fonts/Vazir.woff2') format('woff2'),
+         url('/fonts/Vazir.woff') format('woff'),
+         url('/fonts/Vazir.eot') format('embedded-opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    font-family: 'Vazir', sans-serif;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: 'Vazir', sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .row { @apply flex flex-wrap; }
+  .center { @apply justify-center items-center; }
+
 }
