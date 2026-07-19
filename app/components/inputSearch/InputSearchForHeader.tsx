@@ -19,7 +19,7 @@ export default function InputSearchForHeader() {
                 isCityOrCoordinateFunc(city);
 
             }
-        }, 600),   // 600 میلی‌ثانیه تأخیر
+        }, 1000),   // 1000 میلی‌ثانیه تأخیر
         [isCityOrCoordinateFunc]
     );
 

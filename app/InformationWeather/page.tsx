@@ -9,6 +9,10 @@ import { calculateAltitude } from "../services/CalculateAltitude";
 import { CalculateCurrentTime } from "../services/CalculateCurrentTime";
 import { CalculateUTC } from "../services/CalculateUTC";
 import ShowInformationWeatherComponent from "./ShowInformationWeatherComponent";
+import FiveDaysInfo from "./fiveDaysInfo/FiveDaysInfo";
+import Skeleton from "../components/skeleton/Skeleton24Weather";
+import { CalculatePressureAirCondition } from "../services/CalculatePressureAir";
+
 
 
 interface latAndlng {
@@ -22,8 +26,7 @@ export default function InformationWeather() {
     const { active, changeDrawerState, showDrawer } = useShowDrawer();
     const { data, dataForFiveDays } = useWeatherStore();
     const [localDataForFiveDays, setLocalDataForFiveDays] = useState<[] | null>(null);
-    const [justFiveDaysForSelection, setJustFiveDaysForSelection] = useState<any>(null);
-    const [wichDayYouWantToShow , setWichDayYouWantToShow] = useState<string | null>(null);
+
     const [lat, setLat] = useState<latAndlng>({
         minute: "0",
         degree: "0",
@@ -86,26 +89,6 @@ export default function InformationWeather() {
     };
 
 
-const changeDayForSelection = (command : "next" | "prev") => {
-    if(!wichDayYouWantToShow) return;
-    const date = new Date(wichDayYouWantToShow);
-    const maxDate = date.setDate(date.getDate() + 5);
-
-    if(command === "next") {
-        if(date.getDate() + 1 <= maxDate) {
-            date.setDate(date.getDate() + 1)
-        }else {
-         return
-        }
-
-    }else  {
-      if(date.getDate() - 1 > date.getDate()) {
-            date.setDate(date.getDate() - 1)
-        }else {
-            return
-        }
-    }
- }
 
     useEffect(() => {
 
@@ -127,35 +110,36 @@ const changeDayForSelection = (command : "next" | "prev") => {
         if (dataForFiveDays) {
 
             const result: any = dataForFiveDays.list.filter((value) => {
+                const year = value.dt_txt.slice(0, 4);
+                const month = value.dt_txt.slice(5, 7);
+                const day = value.dt_txt.slice(8, 10);
+                const hour = value.dt_txt.slice(11, 13);
+                //////////////
+                let timePlusOneDay: any = time.day;
+                timePlusOneDay = Number(timePlusOneDay);
+                timePlusOneDay = timePlusOneDay + 1 < 31 ? timePlusOneDay + 1 : timePlusOneDay;
+                timePlusOneDay = timePlusOneDay.toString()
+                ///////////////
 
-                if (value.dt_txt.slice(0, 4) == time.year && value.dt_txt.slice(5, 7) == time.month && value.dt_txt.slice(8, 10) == time.day && value.dt_txt.slice(11, 13) > time.hour) {
+                if (year == time.year && month == time.month && day == time.day && hour > time.hour && hour <= "21") {
+
                     return value;
                 }
+
             })
             if (result) {
-                setLocalDataForFiveDays(result)
-            }
-        }
-        if (dataForFiveDays) {
-            const myResult = dataForFiveDays.list.filter((value) => {
-                if (value.dt_txt.includes("12:00:00")) {
-                    return value
-                }
-            })
-            if(myResult) {
-                setJustFiveDaysForSelection(myResult);
-              const myCurrentREsult = myResult[0].dt_txt.slice(0 , 10);
-              const final = new Intl.DateTimeFormat("en-En").format(new Date(myCurrentREsult));
-             setWichDayYouWantToShow(final);
-             console.log(wichDayYouWantToShow)
+
+                setLocalDataForFiveDays(result);
+
             }
         }
 
-    }, [data ])
+
+    }, [data])
     return (
 
         <>
-            <section className={`${showDrawer ? "block" : "hidden"}  bg-white overflow-y-scroll  h-screen absolute top-0 right-0 w-full  md:w-6/12 lg:w-6/12 xl:w-4/12 z-[1000] overflow-x-hidden shadow-2xl shadow-black  duration-300`} >
+            <section className={`${showDrawer ? "translate-x-0" : "translate-x-full"}   bg-white overflow-y-scroll  h-screen absolute top-0 right-0 w-full  md:w-6/12 lg:w-6/12 xl:w-6/12 z-[1000] overflow-x-hidden shadow-2xl shadow-black  duration-300`} >
                 <div className="w-full h-1/12  flex justify-between items-center *:px-5">
                     <h2 className=" text-2xl font-bold text-favourite-dark-blue">{data?.name}</h2>
                     <button className="h-full w-1/12  flex justify-center items-center cursor-pointer" onClick={() => changeDrawerState(false, false)}>
@@ -210,32 +194,55 @@ const changeDayForSelection = (command : "next" | "prev") => {
 
                 </div>
                 <div className="w-full h-2/12 px-4 ">
-                    <div className="w-full h-full  row items-center justify-start gap-2">
-                        <div className="relative w-20 h-20 ">
-                            <Image
-                                src={`https://openweathermap.org/img/wn/${data?.icon}@2x.png`}
-                                alt="Weather"
-                                width={100}
-                                height={100}
-                                className="rounded-xl object-cover"
-                            />
+                    <div className="w-full h-full   flex items-center justify-start gap-2">
+                        <div className="w-1/2 flex justify-start gap-2  h-full items-center">
+                            <div className="relative  w-20 h-20 ">
+                                <Image
+                                    src={`https://openweathermap.org/img/wn/${data?.icon}@2x.png`}
+                                    alt="Weather"
+                                    width={100}
+                                    height={100}
+                                    className="rounded-xl object-cover"
+                                />
+                            </div>
+                            <div className=" ">
+                                <h2 className="text-3xl"> {ChangeNumbersToPersian(data?.temp)} {"\u00B0"} C</h2>
+                                <p dir="rtl">{ChangeNumbersToPersian(data?.speed)} متر بر ثانیه</p>
+                            </div>
                         </div>
-                        <div className=" ">
-                            <h2 className="text-3xl"> {ChangeNumbersToPersian(data?.temp)} {"\u00B0"} C</h2>
-                            <p dir="rtl">{ChangeNumbersToPersian(data?.speed)} متر بر ثانیه</p>
-                        </div>
-                        <div className=" flex justify-center gap-4 w-full items-center">
-                            <p dir="ltr"> % {ChangeNumbersToPersian(data?.humidity)} </p>
-                            <h2 dir="rtl">رطوبت هوا : </h2>
+                        <div className="w-1/2  h-full flex flex-col justify-evenly items-center">
+                            <div className=" flex justify-center gap-4 w-full items-center ">
+                                <p dir="ltr"> % {ChangeNumbersToPersian(data?.humidity)} </p>
+                                <h2 dir="rtl">رطوبت هوا : </h2>
 
+                            </div>
+                            <div className=" flex justify-center gap-4 w-full items-center ">
+                                <p dir="ltr">{data?.description} </p>
+                                <h2 dir="rtl">وضعیت آب و هوا : </h2>
+
+                            </div>
+                                    <div className=" flex justify-center gap-4 w-full items-center ">
+                                <p dir="ltr">{ChangeNumbersToPersian(data?.feels_like)} {"\u00B0"} C </p>
+                                <h2 dir="rtl">دمای قابل احساس :  </h2>
+
+                            </div>
+                                       <div className=" flex justify-center gap-4 w-full items-center ">
+                                <p dir="ltr">{ChangeNumbersToPersian(data?.pressure)} h/pa</p>
+                                <h2 dir="rtl"> {CalculatePressureAirCondition(data?.pressure) }</h2>
+
+                            </div>
                         </div>
+
+
+
                     </div>
                 </div>
                 <div className="w-full h-5/12 bg-gray-100 px-4 " dir="ltr">
                     <h3 className="py-4 text-sm text-favourite-dark-blue font-bold" dir="rtl">وضعیت آب و هوا در {ChangeNumbersToPersian(24)} ساعت آینده</h3>
-                    <div className=" w-full flex justify-start items-stretch overflow-x-scroll overflow-y-hidden ">
+                    <div className=" w-full flex justify-evenly items-stretch  overflow-y-hidden ">
                         {
-                            localDataForFiveDays && localDataForFiveDays.map((value: any, index: number) => {
+
+                            localDataForFiveDays ? localDataForFiveDays.map((value: any, index: number) => {
 
                                 return (
                                     <ShowInformationWeatherComponent
@@ -251,88 +258,19 @@ const changeDayForSelection = (command : "next" | "prev") => {
                                         pop={value.pop}
                                         precipitation={value.rain || value.snow || null}
                                     />
+
                                 )
-                            })
+                            }) : (
+                                <Skeleton />
+                            )
                         }
                     </div>
 
 
-
-
                 </div>
-                <div className="w-full h-3/12 ">
-                    <div className="w-full   flex justify-between items-center py-4 *:px-3 ">
-
-                        <div className="flex justify-center items-center gap-2">
-                            <div className="row center gap-2">
-                                <div className="bg-favourite-purple rounded-full text-white w-10 h-10 row center cursor-pointer hover:opacity-45" onClick={() => changeDayForSelection("next")}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                                    </svg>
-
-                                </div>
-                                <div className="bg-favourite-purple rounded-full text-white w-10 h-10 row center cursor-pointer hover:opacity-45" onChange={() => changeDayForSelection("prev")}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                                    </svg>
-
-                                </div>
-                            </div>
-                            <select 
-                            name="days"
-                             id="days"
-                              className="border-2 border-gray-600/30 rounded-full hover:bg-gray-600/30 text-sm cursor-pointer *:text-sm hover:*:bg-white p-1 text-gray-600"
-                              onChange={(e) => setWichDayYouWantToShow(e.target.value)}
-                              >
-                                {
-                                    justFiveDaysForSelection && justFiveDaysForSelection.map((value: any , index : number) => {
-                                        return (
-                                            <option value={value.dt_txt.slice(0 , 10)} key={index}>
-                                                {ChangeStringtoPersianDate(value.dt_txt.slice(0 , 10))}
-                                            </option>
-                                        )
-                                    })
-                                }
 
 
-
-                            </select>
-
-                        </div>
-                        <h3 className="text-favourite-dark-blue font-bold text-sm">پیش بینی آب و هوای در روزهای آینده</h3>
-                    </div>
-                    <div className="w-full  row   border-b-2 text-gray-600/20 px-4" >
-                        <div className="w-20 flex flex-col items-center justify-center gap-2 bg-gray-100">
-                            <p className="text-favourite-light-blue text-sm font-bold py-2">شنبه</p>
-                            <div className="relative w-10 h-10 ">
-                                <Image
-                                    src="/img/icons/1.svg"
-                                    alt="icons/weather"
-                                    fill
-                                    className="rounded-xl object-cover"
-                                />
-                            </div>
-                            <p className="text-sm text-favourite-light-blue py-2" dir="ltr">{ChangeNumbersToPersian(32)} {"\u00B0"} C</p>
-                        </div>
-
-
-                        /////////////////
-
-
-
-
-                    </div>
-                    <div className="w-full row  px-4  ">
-
-                  //////////////////// show information //////////////
-
-
-
-
-
-
-                    </div>
-                </div>
+                <FiveDaysInfo />
             </section>
         </>
 
