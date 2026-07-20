@@ -29,19 +29,19 @@ const ZoomControl = dynamic(() => import("react-leaflet").then((mod) => mod.Zoom
 export default function Map() {
     const [isClient, setIsClient] = useState<boolean>(false);
 
-    const { coords, fetchWeather , fetchWeatherForFiveDays   } = useWeatherStore();
+    const { coords, fetchWeather, fetchWeatherForFiveDays } = useWeatherStore();
 
- 
+
 
     useEffect(() => {
         async function primaryFetch() {
-           await fetchWeather(coords.lat , coords.lon);
-           await fetchWeatherForFiveDays(coords.lat , coords.lon)
+            await fetchWeather(coords.lat, coords.lon);
+            await fetchWeatherForFiveDays(coords.lat, coords.lon)
         }
         primaryFetch()
         setIsClient(true);
 
-     
+
 
     }, [coords])
 
@@ -56,7 +56,7 @@ export default function Map() {
     return (
         <div className="w-full h-screen relative z-10 ">
             <MapContainer
-                center={[coords.lat, coords.lon] }
+                center={[coords.lat, coords.lon]}
                 zoom={15}
 
                 scrollWheelZoom={true}
@@ -64,9 +64,10 @@ export default function Map() {
                 style={{ width: "100%", height: "100%" }}
             >
                 <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                    attribution='&copy; OpenStreetMap &copy; CARTO'
                 />
-         
+
                 <CreateIconForMarkerAndPopup lat={coords.lat} long={coords.lon} />
                 <CurrentPositionIcon />
                 <ZoomControl position="bottomright" />
