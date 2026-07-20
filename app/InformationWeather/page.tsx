@@ -238,7 +238,7 @@ export default function InformationWeather() {
                             </div>
                             <div className=" flex justify-center gap-4 w-full items-center ">
                                 <p dir="ltr">{ChangeNumbersToPersian(data?.pressure)} h/pa</p>
-                                <h2 dir="rtl"> {CalculatePressureAirCondition(data?.pressure)}</h2>
+                                <h2 dir="rtl"> {CalculatePressureAirCondition(data?.pressure || 10)} </h2>
 
                             </div>
                         </div>

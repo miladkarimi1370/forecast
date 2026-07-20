@@ -93,6 +93,8 @@ export interface ForecastResponseForFiveDays {
         visibility: number;
         pop: number;
         pod: string;
+          rain?: number,
+        snow?: number
     }[];
 
     id_city: number;
@@ -126,6 +128,8 @@ export interface ForecastResponse {
         visibility: number;
         pop: number;
         pod: string;
+          rain?: number,
+        snow?: number
     }[];
 
     id_city: number;

@@ -6,12 +6,13 @@ import { useWeatherStore } from "@/app/store/store";
 import { useEffect, useState } from "react";
 import ShowInformationWeatherComponent from "../ShowInformationWeatherComponent";
 import TopComponentInFiveDaysShowing from "./topComponentInFiveDaysShowing/TopComponentInFiveDaysShwing";
+import Skeleton from "@/app/components/skeleton/Skeleton24Weather";
 
 
 export default function FiveDaysInfo() {
     const [justFiveDaysForSelection, setJustFiveDaysForSelection] = useState<any>(null);
     const [wichDayYouWantToShow, setWichDayYouWantToShow] = useState<string | null>(null);
-    const { dataForFiveDays } = useWeatherStore()
+    const { dataForFiveDays  } = useWeatherStore()
 
 
     const myResult = dataForFiveDays && dataForFiveDays.list.map((value, index) => {
@@ -79,6 +80,7 @@ export default function FiveDaysInfo() {
         if (dataForFiveDays) {
 
             const myResult = dataForFiveDays.list.filter((value) => {
+        
                 if (value.dt_txt.includes("12:00:00")) {
                     return value
                 }
@@ -142,7 +144,7 @@ export default function FiveDaysInfo() {
                 <div className="w-full  flex justify-start gap-2   border-b-2 text-gray-600/20 px-4" >
 
                     {
-                        justFiveDaysForSelection && justFiveDaysForSelection.map((value: any, index: number) => {
+                        justFiveDaysForSelection ? justFiveDaysForSelection.map((value: any, index: number) => {
                             return (
                                 <TopComponentInFiveDaysShowing
                              
@@ -153,7 +155,9 @@ export default function FiveDaysInfo() {
                                     hasShadow={value.dt_txt.slice(0, 10) == wichDayYouWantToShow}
                                 />
                             )
-                        })
+                        }) : (
+                            <Skeleton />
+                        )
                     }
 
 
@@ -168,7 +172,7 @@ export default function FiveDaysInfo() {
 
 
                     {
-                        myResult && myResult
+                        myResult ? myResult : (<Skeleton />)
                     }
 
 
