@@ -1,17 +1,18 @@
 "use client";
 
 
+import { InputSearchFunctionality } from "@/app/store/InputSearchFunctionality";
 import { useWeatherStore } from "@/app/store/store";
 import { debounce } from "@/app/utils/debounce";
 import { useCallback, useEffect, useRef, useState } from "react"
 
 
 
-export default function InputSearchForHeader() {
+export default function InputSearchForHeader( ) {
     const [showSubscribe, setShowSubscribe] = useState<boolean>(true);
     const { isCityOrCoordinateFunc, error } = useWeatherStore();
     const [searchValue, setSearchValue] = useState<string>("");
-
+    const {show} = InputSearchFunctionality();
     const myRef = useRef<null | HTMLInputElement>(null);
     const debouncedFetch = useCallback(
         debounce((city: string) => {
@@ -35,21 +36,21 @@ export default function InputSearchForHeader() {
         } else {
             setShowSubscribe(true)
         }
-
+console.log(show)
 
     }, [searchValue, debouncedFetch])
 
     return (
         <>
-            <div className="hidden xl:flex w-full  h-16 rounded-full justify-center items-center shadow-2xl shadow-gray-700 bg-white">
+            <div  className={`${show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}  bg-white  p-4 xl:flex xl:opacity-100 xl:pointer-events-auto absolute duration-200 w-110 xl:relative top-[100px] xl:top-0 mx-auto xl:w-full  h-16 rounded-full justify-center items-center shadow-2xl shadow-gray-700`}>
                 <div className="w-11/12  flex justify-center items-center relative gap-4 " >
-                    <div className="w-4/12 row justify-start items-center ">
-                        <h2>
+                    <div className="w-1/12 xl:w-4/12   row justify-start items-center ">
+                        <h2 className="hidden xl:block">
                             <span className=" text-my-favourite-purple uppercase text-2xl font-bold">w</span>
                             <span className="text-black text-xl font-bold">weather app</span>
                         </h2>
                     </div>
-                    <div className="relative h-full w-7/12">
+                    <div className="relative h-full w-full">
                         <div className="absolute  h-full    ">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -90,13 +91,7 @@ export default function InputSearchForHeader() {
                         }
                     </div>
 
-                    <button className="h-full w-1/12  flex justify-end items-center cursor-pointer" onClick={() => debouncedFetch(searchValue)}>
-                        <div className="w-fit h-full bg-blue-800 rounded-full p-2 hover:bg-blue-800/50 duration-300 hover:-rotate-z-45">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth={1.5} stroke="none" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
-                            </svg>
-                        </div>
-                    </button>
+            
                 </div>
 
             </div>

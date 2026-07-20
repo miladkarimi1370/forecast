@@ -114,16 +114,24 @@ export default function InformationWeather() {
                 const month = value.dt_txt.slice(5, 7);
                 const day = value.dt_txt.slice(8, 10);
                 const hour = value.dt_txt.slice(11, 13);
+
+
+
+
                 //////////////
-                let timePlusOneDay: any = time.day;
-                timePlusOneDay = Number(timePlusOneDay);
-                timePlusOneDay = timePlusOneDay + 1 < 31 ? timePlusOneDay + 1 : timePlusOneDay;
-                timePlusOneDay = timePlusOneDay.toString()
+                const date = new Date(time.year + "-" + time.month + "-" + time.day);
+                date.setDate(date.getDate() + 1);
+                const final = String(date.getDate());
+           
                 ///////////////
 
                 if (year == time.year && month == time.month && day == time.day && hour > time.hour && hour <= "21") {
 
                     return value;
+                }else {
+                    if(year == time.year && month == time.month && day == final ) {
+                        return value
+                    }
                 }
 
             })
@@ -134,6 +142,8 @@ export default function InformationWeather() {
             }
         }
 
+
+  
 
     }, [data])
     return (
@@ -195,7 +205,7 @@ export default function InformationWeather() {
                 </div>
                 <div className="w-full h-2/12 px-4 ">
                     <div className="w-full h-full   flex items-center justify-start gap-2">
-                        <div className="w-1/2 flex justify-start gap-2  h-full items-center">
+                        <div className=" w-1/2 flex justify-start gap-2  h-full items-center">
                             <div className="relative  w-20 h-20 ">
                                 <Image
                                     src={`https://openweathermap.org/img/wn/${data?.icon}@2x.png`}
@@ -210,25 +220,25 @@ export default function InformationWeather() {
                                 <p dir="rtl">{ChangeNumbersToPersian(data?.speed)} متر بر ثانیه</p>
                             </div>
                         </div>
-                        <div className="w-1/2  h-full flex flex-col justify-evenly items-center">
-                            <div className=" flex justify-center gap-4 w-full items-center ">
+                        <div className=" w-1/2  h-full flex flex-col justify-evenly items-center">
+                            <div className=" flex justify-center xl:gap-4 w-full items-center ">
                                 <p dir="ltr"> % {ChangeNumbersToPersian(data?.humidity)} </p>
                                 <h2 dir="rtl">رطوبت هوا : </h2>
 
                             </div>
-                            <div className=" flex justify-center gap-4 w-full items-center ">
+                            <div className=" flex justify-center xl:gap-4 w-full items-center ">
                                 <p dir="ltr">{data?.description} </p>
                                 <h2 dir="rtl">وضعیت آب و هوا : </h2>
 
                             </div>
-                                    <div className=" flex justify-center gap-4 w-full items-center ">
+                            <div className=" flex justify-center xl:gap-4 w-full items-center ">
                                 <p dir="ltr">{ChangeNumbersToPersian(data?.feels_like)} {"\u00B0"} C </p>
                                 <h2 dir="rtl">دمای قابل احساس :  </h2>
 
                             </div>
-                                       <div className=" flex justify-center gap-4 w-full items-center ">
+                            <div className=" flex justify-center gap-4 w-full items-center ">
                                 <p dir="ltr">{ChangeNumbersToPersian(data?.pressure)} h/pa</p>
-                                <h2 dir="rtl"> {CalculatePressureAirCondition(data?.pressure) }</h2>
+                                <h2 dir="rtl"> {CalculatePressureAirCondition(data?.pressure)}</h2>
 
                             </div>
                         </div>

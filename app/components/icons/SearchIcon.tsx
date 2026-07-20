@@ -1,7 +1,15 @@
+"use client"
+import { InputSearchFunctionality } from "@/app/store/InputSearchFunctionality"
+
 export default function SearchIcon() {
+  const {changeShow } = InputSearchFunctionality();
+
+ 
     return (
         <>
-  <button className="cursor-pointer w-12 h-12 bg-white rounded-full flex items-center justify-center xl:hidden">
+  <button className="cursor-pointer w-12 h-12 bg-white rounded-full flex items-center justify-center xl:hidden"
+  onClick={changeShow}
+  >
   
   <div className="w-5/12 h-5/12 row center">
     <svg

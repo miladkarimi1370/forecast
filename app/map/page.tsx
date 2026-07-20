@@ -7,6 +7,7 @@ import CreateIconForMarkerAndPopup from "./createIconForMarkerAndPopup";
 import CurrentPositionIcon from "../components/currentPositionIcon/CurrentPositionIcon";
 
 
+
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), {
     ssr: false
 })
@@ -40,6 +41,8 @@ export default function Map() {
         primaryFetch()
         setIsClient(true);
 
+     
+
     }, [coords])
 
     if (!isClient) {
@@ -61,9 +64,9 @@ export default function Map() {
                 style={{ width: "100%", height: "100%" }}
             >
                 <TileLayer
-                    attribution='&copy; OpenStreetMap'
-                    url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+         
                 <CreateIconForMarkerAndPopup lat={coords.lat} long={coords.lon} />
                 <CurrentPositionIcon />
                 <ZoomControl position="bottomright" />
