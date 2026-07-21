@@ -34,7 +34,9 @@ export default function Map() {
 
 
     useEffect(() => {
+  
         async function primaryFetch() {
+            
             await fetchWeather(coords.lat, coords.lon);
             await fetchWeatherForFiveDays(coords.lat, coords.lon)
         }

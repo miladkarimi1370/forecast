@@ -107,43 +107,32 @@ export default function InformationWeather() {
             }
         }
 
-        if (dataForFiveDays) {
+     
+        if (dataForFiveDays?.list) {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentDay = now.getDate();
 
-            const result: any = dataForFiveDays.list.filter((value) => {
-                const year = value.dt_txt.slice(0, 4);
-                const month = value.dt_txt.slice(5, 7);
-                const day = value.dt_txt.slice(8, 10);
-                const hour = value.dt_txt.slice(11, 13);
+            const filtered = dataForFiveDays.list.filter((item: any) => {
+                const itemDate = new Date(item.dt_txt);
+                const itemHour = itemDate.getHours();
+                const itemDay = itemDate.getDate();
 
-
-
-
-                //////////////
-                const date = new Date(time.year + "-" + time.month + "-" + time.day);
-                date.setDate(date.getDate() + 1);
-                const final = String(date.getDate());
-           
-                ///////////////
-
-                if (year == time.year && month == time.month && day == time.day && hour > time.hour && hour <= "21") {
-
-                    return value;
-                }else {
-                    if(year == time.year && month == time.month && day == final ) {
-                        return value
-                    }
+                if (currentHour < 21) {
+                    // قبل از ۲۱: فقط امروز
+                    return itemDay === currentDay && itemHour > currentHour;
+                } else {
+                    // بعد از ۲۱: فقط فردا
+                    return itemDay === currentDay + 1;
                 }
+            });
 
-            })
-            if (result) {
+            // حداکثر ۸ پیش‌بینی (۲۴ ساعت)
+            const limited : any = filtered.slice(0, 8);
 
-                setLocalDataForFiveDays(result);
-
-            }
+            setLocalDataForFiveDays(limited);
         }
 
-
-  
 
     }, [data])
     return (
