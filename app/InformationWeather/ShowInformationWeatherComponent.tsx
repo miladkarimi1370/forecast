@@ -92,7 +92,7 @@ export default function ShowInformationWeatherComponent({ deg, hasShadow, hour, 
                         className="rounded-xl object-cover"
                     />
                 </div>
-                <p dir="ltr" className={`text-sm text-favourite-dark-blue ${bg} w-full text-center py-1`}>{ChangeNumbersToPersian(temp)} {"\u00B0"} C</p>
+                <p dir="ltr" className={`text-sm text-favourite-dark-blue ${bg} w-full text-center py-1 `}>{ChangeNumbersToPersian(temp)} {"\u00B0"} </p>
                 <p className="text-sm flex justify-center items-center border-b-2 border-b-gray-600/30 py-1" dir="rtl"> {" ' "} { ChangeNumbersToPersian(precipitation ?? 0)} {" ' "} میلیمتر</p>
                 <p className="text-sm text-blue-800" dir="rtl">{ChangeNumbersToPersian(Number(calculatePrecipitionChance(pop))) + "%"}</p>
                 <div className="flex justify-center items-center">

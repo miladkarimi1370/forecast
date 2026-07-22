@@ -139,10 +139,10 @@ export default function InformationWeather() {
 
         <>
             <section className={`${showDrawer ? "translate-x-0" : "translate-x-full"}   bg-white overflow-y-scroll  h-screen absolute top-0 right-0 w-full  md:w-6/12 lg:w-6/12 xl:w-6/12 z-[1000] overflow-x-hidden shadow-2xl shadow-black  duration-300`} >
-                <div className="w-full h-1/12  flex justify-between items-center *:px-5">
+                <div className="w-full xl:h-1/12 h-auto  flex justify-between items-center  *:px-5">
                     <h2 className=" text-2xl font-bold text-favourite-dark-blue">{data?.name}</h2>
                     <button className="h-full w-1/12  flex justify-center items-center cursor-pointer" onClick={() => changeDrawerState(false, false)}>
-                        <div className="w-fit h-1/2 bg-blue-800 rounded-full p-2 hover:bg-blue-800/50 duration-300 hover:-rotate-z-45">
+                        <div className="w-fit h-1/2 bg-blue-800 my-3 xl:my-0  rounded-full p-2 hover:bg-blue-800/50 duration-300 hover:-rotate-z-45">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="white" className="size-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
                             </svg>
@@ -150,7 +150,7 @@ export default function InformationWeather() {
                         </div>
                     </button>
                 </div>
-                <div className="w-full h-1/12  px-2 row border-b-2 border-b-gray-600/20">
+                <div className="w-full h-auto xl:h-1/12 py-4 xl:py-0  px-2 row border-b-2  border-b-gray-600/20">
                     <div className="w-full h-full row ">
                         <div className="w-full h-full row justify-start items-center gap-2" dir="rtl">
                             <div>
@@ -192,9 +192,9 @@ export default function InformationWeather() {
                     </div>
 
                 </div>
-                <div className="w-full h-2/12 px-4 ">
-                    <div className="w-full h-full   flex items-center justify-start gap-2">
-                        <div className=" w-1/2 flex justify-start gap-2  h-full items-center">
+                <div className="w-full h-auto xl:h-2/12 px-4  py-4 xl:py-0">
+                    <div className="w-full h-full   flex items-center  justify-start gap-2 ">
+                        <div className=" w-1/2 flex justify-start flex-col xl:flex-row gap-2  h-full items-center ">
                             <div className="relative  w-20 h-20 ">
                                 <Image
                                     src={`https://openweathermap.org/img/wn/${data?.icon}@2x.png`}
@@ -205,29 +205,29 @@ export default function InformationWeather() {
                                 />
                             </div>
                             <div className=" ">
-                                <h2 className="text-3xl"> {ChangeNumbersToPersian(data?.temp)} {"\u00B0"} C</h2>
-                                <p dir="rtl">{ChangeNumbersToPersian(data?.speed)} متر بر ثانیه</p>
+                                <h2 className=" text-xl xl:text-3xl"> {ChangeNumbersToPersian(data?.temp)} {"\u00B0"} C</h2>
+                                <p className="text-start text-sm hidden md:flex" >{ChangeNumbersToPersian(data?.speed)} m/s</p>
                             </div>
                         </div>
-                        <div className=" w-1/2  h-full flex flex-col justify-evenly items-center">
-                            <div className=" flex justify-center xl:gap-4 w-full items-center ">
-                                <p dir="ltr"> % {ChangeNumbersToPersian(data?.humidity)} </p>
-                                <h2 dir="rtl">رطوبت هوا : </h2>
+                        <div className=" w-1/2  h-full flex flex-col justify-evenly items-center ">
+                            <div className=" flex justify-center xl:gap-4 w-full items-center py-1">
+                                <p className="text-sm md:text-md text-gray-600" dir="ltr"> % {ChangeNumbersToPersian(data?.humidity)} </p>
+                                <h2 className="text-sm md:text-md " dir="rtl">رطوبت هوا : </h2>
 
                             </div>
-                            <div className=" flex justify-center xl:gap-4 w-full items-center ">
-                                <p dir="ltr">{data?.description} </p>
-                                <h2 dir="rtl">وضعیت آب و هوا : </h2>
+                            <div className=" flex justify-center flex-col md:flex-row xl:gap-4 w-full items-center py-1">
+                                <p className="text-sm md:text-md text-gray-600 order-2 lg:order-1" dir="ltr">{data?.description} </p>
+                                <h2 className="text-sm md:text-md order-1 lg:order-2" dir="rtl">وضعیت آب و هوا : </h2>
 
                             </div>
-                            <div className=" flex justify-center xl:gap-4 w-full items-center ">
-                                <p dir="ltr">{ChangeNumbersToPersian(data?.feels_like)} {"\u00B0"} C </p>
-                                <h2 dir="rtl">دمای قابل احساس :  </h2>
+                            <div className=" flex justify-center xl:gap-4 w-full items-center flex-col md:flex-row py-1">
+                                <p className="text-sm md:text-md text-gray-600 order-2 lg:order-1" dir="ltr">{ChangeNumbersToPersian(data?.feels_like)} {"\u00B0"} C </p>
+                                <h2 className="text-sm md:text-md order-1 lg:order-2" dir="rtl">دمای قابل احساس :  </h2>
 
                             </div>
-                            <div className=" flex justify-center gap-4 w-full items-center ">
-                                <p dir="ltr">{ChangeNumbersToPersian(data?.pressure)} h/pa</p>
-                                <h2 dir="rtl"> {CalculatePressureAirCondition(data?.pressure || 10)} </h2>
+                            <div className="  justify-center gap-4 w-full items-center hidden md:flex">
+                                <p className="text-sm md:text-md text-gray-600 " dir="ltr">{ChangeNumbersToPersian(data?.pressure)} h/pa</p>
+                                <h2 className="text-sm md:text-md order-1" dir="rtl"> {CalculatePressureAirCondition(data?.pressure || 10)} </h2>
 
                             </div>
                         </div>
@@ -236,9 +236,9 @@ export default function InformationWeather() {
 
                     </div>
                 </div>
-                <div className="w-full h-5/12 bg-gray-100 px-4 " dir="ltr">
-                    <h3 className="py-4 text-sm text-favourite-dark-blue font-bold" dir="rtl">وضعیت آب و هوا در {ChangeNumbersToPersian(24)} ساعت آینده</h3>
-                    <div className=" w-full flex justify-evenly items-stretch  overflow-y-hidden ">
+                <div className="w-full h-auto xl:h-5/12 bg-gray-100 px-4 " dir="ltr">
+                    <h3 className="py-4 text-sm text-center xl:text-start text-favourite-dark-blue font-bold" dir="rtl">وضعیت آب و هوا در {ChangeNumbersToPersian(24)} ساعت آینده</h3>
+                    <div className=" w-full flex justify-evenly items-stretch   ">
                         {
 
                             localDataForFiveDays ? localDataForFiveDays.map((value: any, index: number) => {

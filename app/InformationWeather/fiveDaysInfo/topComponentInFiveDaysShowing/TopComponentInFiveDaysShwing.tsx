@@ -32,7 +32,7 @@ const clickHandler = (e: SyntheticEvent ) => {
                         className="rounded-xl object-cover"
                     />
                 </div>
-                <p className="text-sm text-favourite-light-blue py-2" dir="ltr">{ChangeNumbersToPersian(temp)} {"\u00B0"} C</p>
+                <p className="text-sm text-favourite-light-blue py-2" dir="ltr">{ChangeNumbersToPersian(temp)} {"\u00B0"} </p>
             </div>
 
         </>

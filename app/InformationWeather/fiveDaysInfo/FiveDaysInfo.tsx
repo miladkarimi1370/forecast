@@ -101,7 +101,7 @@ export default function FiveDaysInfo() {
             <div className="w-full h-3/12 ">
                 <div className="w-full   flex justify-between items-center py-4 *:px-3 ">
 
-                    <div className="flex justify-center items-center gap-2">
+                    <div className="flex justify-center items-center gap-2  flex-col xl:flex-row">
                         <div className="row center gap-2">
                             <div className="bg-favourite-purple rounded-full text-white w-10 h-10 row center cursor-pointer hover:opacity-45" onClick={() => changeDayForSelection("prev")}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -139,9 +139,9 @@ export default function FiveDaysInfo() {
                         </select>
 
                     </div>
-                    <h3 className="text-favourite-dark-blue font-bold text-sm">پیش بینی آب و هوای در روزهای آینده</h3>
+                    <h3 className="text-favourite-dark-blue font-bold text-sm text-center xl:text-start">پیش بینی آب و هوای در روزهای آینده</h3>
                 </div>
-                <div className="w-full  flex justify-start gap-2   border-b-2 text-gray-600/20 px-4" >
+                <div className="w-full  flex justify-start items-stretch gap-2   border-b-2 text-gray-600/20 px-4 " >
 
                     {
                         justFiveDaysForSelection ? justFiveDaysForSelection.map((value: any, index: number) => {
@@ -167,7 +167,7 @@ export default function FiveDaysInfo() {
 
 
                 </div>
-                <div className="w-full flex justify-start gap-2  px-4  ">
+                <div className="w-full flex justify-start overflow-x-scroll gap-2  px-4  ">
 
 
 
